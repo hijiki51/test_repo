@@ -22,11 +22,11 @@ jobs:
         with:
           registry: ghcr.io
           username: hijiki51
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           tags: |
-            hijiki51/test:${{ env.IMAGE_TAG }}
+            ghcr.io/hijiki51/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

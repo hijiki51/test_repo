@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: test
+  IMAGE_NAME: test_repo
   IMAGE_TAG: main
 
 jobs:

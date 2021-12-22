@@ -28,6 +28,5 @@ jobs:
         with:
           context: .
           push: true
-          file: docker/production/Dockerfile
           tags: |
-            ghcr.io/traptitech/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            hijiki51/test:${{ env.IMAGE_TAG }}

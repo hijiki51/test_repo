@@ -22,7 +22,7 @@ jobs:
         id: semver
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
-          input_string: ${{ steps.release-drafter.outputs.tag-name }}
+          input_string: ${{ steps.release-drafter.outputs.tag_name }}
           version_extractor_regex: 'v(.*)$'
       - name: Create new branch
         env:

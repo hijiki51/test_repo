@@ -24,9 +24,9 @@ jobs:
         with:
           input_string: ${{ steps.release-drafter.outputs.tag_name }}
           version_extractor_regex: 'v(.*)$'
-      - name: Create new branch
+      - name: Create new branch or switch to existing
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git switch -c releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}
+          git switch releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }} 2>/dev/null || git switch -c releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}
           git push -u origin releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}

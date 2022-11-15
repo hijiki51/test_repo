@@ -18,9 +18,15 @@ jobs:
           config-name: minor-release.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Parse semver string
+        id: semver
+        uses: booxmedialtd/ws-action-parse-semver@v1
+        with:
+          input_string: ${{ steps.release-drafter.outputs.tag-name }}
+          version_extractor_regex: 'v(.*)$'
       - name: Create new branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git switch -c releases/${{ steps.release-drafter.outputs.tag_name }}
-          git push -u origin releases/${{ steps.release-drafter.outputs.tag_name }}
+          git switch -c releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}
+          git push -u origin releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}

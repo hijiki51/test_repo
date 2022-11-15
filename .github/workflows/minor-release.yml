@@ -8,7 +8,7 @@ on:
     
 
 jobs:
-  update_release_draft:
+  update_minor_release_draft:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

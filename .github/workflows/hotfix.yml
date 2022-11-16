@@ -26,7 +26,7 @@ jobs:
         run: |
           echo ${{ github.event.pull_request.head.sha }}
           git checkout ${{ github.event.pull_request.head.sha }}
-          git checkout -b releases/${{ github.sha }} ${{ github.event.pull_request.head.sha }}
+          git checkout -b releases/${{ github.sha }} 
           git push origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
       - uses: actions/checkout@v3
         with:
@@ -34,16 +34,9 @@ jobs:
           ref: hotfix/release_${{ github.event.pull_request.head.ref }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Automatic Rebase
-          title: "[Auto Generated] ${{ github.event.pull_request.title }}"
-          body: "## This PR is auto Generated \n ${{ github.event.pull_request.body }}"
-          base: main
-          branch: hotfix/release_${{ github.event.pull_request.head.ref }}
-          labels: |
-            bug
+        run: gh pr create -B "main" -t "[Auto Generated] ${{ github.event.pull_request.title }}" -b "## This PR is auto Generated \n ${{ github.event.pull_request.body }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rebase:
     name: Rebase
     runs-on: ubuntu-latest

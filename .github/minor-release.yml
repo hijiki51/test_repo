@@ -1,5 +1,6 @@
 name-template: 'v$NEXT_MINOR_VERSION'
 tag-template: 'v$NEXT_MINOR_VERSION'
+filter-by-commitish: true
 categories:
   - title: '💥 Breaking Changes'
     labels:

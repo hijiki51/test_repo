@@ -1,4 +1,4 @@
-name: Automatic Rebase and Create Pull Request
+name: Automatic Create Pull Request
 on:
   pull_request:
     types: [opened, synchronize]
@@ -40,20 +40,3 @@ jobs:
         run: gh pr create -B "main" -t "[Auto Generated] ${{ github.event.pull_request.title }}" -b "${{ github.event.pull_request.body }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  rebase:
-    name: Rebase
-    runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.head.ref,'hotfix/release_')
-    permissions:
-      contents: 'write'
-      pull-requests: 'write'
-      
-    steps:
-      - name: Checkout the latest code
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Automatic Rebase
-        uses: cirrus-actions/rebase@1.7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

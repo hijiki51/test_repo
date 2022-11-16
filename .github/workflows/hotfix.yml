@@ -19,12 +19,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Create new branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git switch ${{ github.event.pull_request.head.ref }}
+          git switch ${{ github.event.pull_request.head.sha }}
           git switch -c releases/${{ github.sha }}
           git push -u origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
       - uses: actions/checkout@v3

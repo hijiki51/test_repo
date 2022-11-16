@@ -6,8 +6,8 @@ on:
 
     
 jobs:
-  rebase:
-    name: Rebase
+  create_pr:
+    name: Create Pull Request
     runs-on: ubuntu-latest
     if: startsWith(github.event.pull_request.base.ref,'releases/')
     permissions:
@@ -41,6 +41,19 @@ jobs:
           branch: hotfix/release_${{ github.event.pull_request.head.ref }}
           labels: |
             bug
+  rebase:
+    name: Rebase
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.base.ref,'hotfix/release_')
+    permissions:
+      contents: 'write'
+      pull-requests: 'write'
+      
+    steps:
+      - name: Checkout the latest code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Automatic Rebase
         uses: cirrus-actions/rebase@1.7
         env:

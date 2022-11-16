@@ -38,6 +38,7 @@ jobs:
           title: "[Auto Generated] ${{ github.event.pull_request.title }}"
           body: "## This PR is auto Generated \n ${{ github.event.pull_request.body }}"
           base: main
+          branch: hotfix/release_${{ github.event.pull_request.head.ref }}
           labels: |
             bug
       - name: Automatic Rebase

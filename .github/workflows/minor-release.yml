@@ -12,12 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: release-drafter/release-drafter@v5
-        id: release-drafter
-        with:
-          config-name: minor-release.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Parse semver string
         id: semver
         uses: booxmedialtd/ws-action-parse-semver@v1
@@ -30,3 +24,10 @@ jobs:
         run: |
           git switch -c releases/${{ github.sha }}
           git push -f origin releases/${{ github.sha }}:releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.x
+      - uses: release-drafter/release-drafter@v5
+        id: release-drafter
+        with:
+          config-name: minor-release.yml
+          commitish: releases/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

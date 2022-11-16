@@ -6,7 +6,7 @@ on:
 
     
 jobs:
-  create_pr:
+  upsert_branch:
     name: Create Pull Request
     runs-on: ubuntu-latest
     if: startsWith(github.event.pull_request.base.ref,'releases/')
@@ -30,7 +30,21 @@ jobs:
           echo ${{ github.event.pull_request.head.sha }}
           git checkout ${{ github.event.pull_request.head.sha }}
           git checkout -b releases/${{ github.sha }} 
-          git push origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
+          git push -f origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
+      - name: Set whether the branch is already existing to GITHUB_ENV
+        run: |
+          branch_is_existing=$(
+            git fetch origin ${NEW_BRANCH_NAME} &&
+            echo true ||
+            echo false
+          )
+          echo "BRANCH_IS_EXISTING=${branch_is_existing}" >> $GITHUB_ENV
+  create_pr:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.base.ref,'releases/') && ${{ env.BRANCH_IS_EXISTING == 'false' }}
+    needs: upsert_branch
+    steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

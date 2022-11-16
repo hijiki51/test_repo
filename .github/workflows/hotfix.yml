@@ -42,7 +42,7 @@ jobs:
   create_pr:
     name: Create Pull Request
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.base.ref,'releases/') && ${{ env.BRANCH_IS_EXISTING == 'false' }}
+    if: startsWith(github.event.pull_request.base.ref,'releases/') && env.BRANCH_IS_EXISTING == 'false'
     needs: upsert_branch
     steps:
       - uses: actions/checkout@v3

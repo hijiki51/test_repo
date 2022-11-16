@@ -9,7 +9,7 @@ jobs:
   rebase:
     name: Rebase
     runs-on: ubuntu-latest
-    if: startWith(github.event.pull_request.base.ref == 'releases/')
+    if: startsWith(github.event.pull_request.base.ref,'releases/')
     permissions:
       contents: 'write'
       pull-requests: 'write'

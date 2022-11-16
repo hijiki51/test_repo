@@ -34,13 +34,13 @@ jobs:
           ref: hotfix/release_${{ github.event.pull_request.head.ref }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
       - name: Create Pull Request
-        run: gh pr create -B "main" -t "[Auto Generated] ${{ github.event.pull_request.title }}" -b "## This PR is auto Generated \n ${{ github.event.pull_request.body }}"
+        run: gh pr create -B "main" -t "[Auto Generated] ${{ github.event.pull_request.title }}" -b "${{ github.event.pull_request.body }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rebase:
     name: Rebase
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.base.ref,'hotfix/release_')
+    if: startsWith(github.event.pull_request.head.ref,'hotfix/release_')
     permissions:
       contents: 'write'
       pull-requests: 'write'

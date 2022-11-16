@@ -24,9 +24,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo ${{ github.event.pull_request.head.sha }}
           git checkout ${{ github.event.pull_request.head.sha }}
-          git checkout -b releases/${{ github.sha }}
-          git push -u origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
+          git checkout -b releases/${{ github.sha }} ${{ github.event.pull_request.head.sha }}
+          git push origin releases/${{ github.sha }}:hotfix/release_${{ github.event.pull_request.head.ref }}
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

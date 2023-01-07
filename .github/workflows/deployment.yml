@@ -7,8 +7,8 @@ on:
 jobs:
   deploy:
     name: Deploy my app
-    permissions:
-      deployments: write
+    # permissions:
+    #   deployments: write
 
     runs-on: ubuntu-latest
 

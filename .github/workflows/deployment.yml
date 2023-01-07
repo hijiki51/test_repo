@@ -1,5 +1,6 @@
 on: 
   deployment:
+  deployment_status:
 
 jobs:
   deploy:
